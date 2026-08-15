@@ -26,9 +26,9 @@
 <script>
 (function(){
   var KEY='briav32_auth';
-  if(sessionStorage.getItem(KEY)==='ok'){return;}
   document.addEventListener('DOMContentLoaded',function(){
     var overlay=document.getElementById('login-overlay');
+    if(sessionStorage.getItem(KEY)==='ok'){overlay.style.display='none';return;}
     var input=document.getElementById('login-input');
     var btn=document.getElementById('login-btn');
     var err=document.getElementById('login-err');
@@ -44,6 +44,7 @@
     }
     btn.addEventListener('click',check);
     input.addEventListener('keydown',function(e){if(e.key==='Enter')check();});
+    input.focus();
   });
 })();
 </script>
