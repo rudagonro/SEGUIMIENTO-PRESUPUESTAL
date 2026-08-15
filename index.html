@@ -5,6 +5,49 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>TIP 2026 - BRIAV32 - Seguimiento Presupuestal</title>
 <style>
+#login-overlay{position:fixed;inset:0;background:linear-gradient(135deg,#0B3B1F 0%,#163d1f 60%,#5C7A44 100%);
+  display:flex;align-items:center;justify-content:center;z-index:99999;flex-direction:column;gap:0}
+#login-box{background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.18);border-radius:16px;
+  padding:40px 44px;display:flex;flex-direction:column;align-items:center;gap:18px;min-width:320px;
+  box-shadow:0 8px 40px rgba(0,0,0,.4)}
+#login-logo{width:64px;height:64px;border-radius:50%;border:2px solid #7ABFA0;object-fit:cover}
+#login-title{color:#fff;font-size:18px;font-weight:800;letter-spacing:.3px;text-align:center;font-family:'Segoe UI',Arial,sans-serif}
+#login-sub{color:rgba(255,255,255,.55);font-size:10px;letter-spacing:1.2px;text-transform:uppercase;font-family:'Segoe UI',Arial,sans-serif;margin-top:-10px}
+#login-input{width:100%;padding:10px 16px;border-radius:8px;border:1.5px solid rgba(255,255,255,.25);
+  background:rgba(255,255,255,.1);color:#fff;font-size:15px;font-family:'Segoe UI',Arial,sans-serif;
+  outline:none;text-align:center;letter-spacing:3px}
+#login-input::placeholder{letter-spacing:1px;color:rgba(255,255,255,.35);font-size:12px}
+#login-input:focus{border-color:#7ABFA0}
+#login-btn{width:100%;padding:10px;border-radius:8px;background:#7ABFA0;border:none;color:#0B3B1F;
+  font-weight:800;font-size:13px;cursor:pointer;font-family:'Segoe UI',Arial,sans-serif;letter-spacing:.5px;transition:background .15s}
+#login-btn:hover{background:#9dd4be}
+#login-err{color:#ff8080;font-size:11px;font-family:'Segoe UI',Arial,sans-serif;display:none;text-align:center}
+</style>
+<script>
+(function(){
+  var KEY='briav32_auth';
+  if(sessionStorage.getItem(KEY)==='ok'){return;}
+  document.addEventListener('DOMContentLoaded',function(){
+    var overlay=document.getElementById('login-overlay');
+    var input=document.getElementById('login-input');
+    var btn=document.getElementById('login-btn');
+    var err=document.getElementById('login-err');
+    function check(){
+      if(input.value.trim().toUpperCase()==='BRIAV32'){
+        sessionStorage.setItem(KEY,'ok');
+        overlay.style.display='none';
+      } else {
+        err.style.display='block';
+        input.value='';
+        input.focus();
+      }
+    }
+    btn.addEventListener('click',check);
+    input.addEventListener('keydown',function(e){if(e.key==='Enter')check();});
+  });
+})();
+</script>
+<style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --vd:#0B3B1F;--vo:#5C7A44;--va:#7ABFA0;--bg:#D7E4BA;--cv:#523030;--rj:#C4001A;
@@ -142,6 +185,16 @@ tbody tr.tot-row td.un{color:var(--va)}
 </style>
 </head>
 <body>
+
+<div id="login-overlay">
+  <div id="login-box">
+    <div id="login-title">BRIAV32</div>
+    <div id="login-sub">Seguimiento Presupuestal — TIP 2026</div>
+    <input id="login-input" type="password" placeholder="Ingresa la contraseña" autocomplete="off"/>
+    <button id="login-btn">INGRESAR</button>
+    <div id="login-err">Contraseña incorrecta. Intenta de nuevo.</div>
+  </div>
+</div>
 
 <div id="app">
 <div id="hdr">
