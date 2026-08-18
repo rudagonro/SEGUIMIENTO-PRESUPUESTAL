@@ -664,22 +664,43 @@ function sevKey(a){
 }
 function sevRank(k){return {DEBIDO:3,CRIT20:2,SEG30:1,OK:0}[k]||-1;}
 
+function mostrarToast(html, color){
+  var t=document.getElementById('toast-upd');
+  if(!t){t=document.createElement('div');t.id='toast-upd';
+    t.style.cssText='position:fixed;bottom:24px;right:24px;z-index:99998;background:#0B3B1F;color:#fff;'+
+    'border-radius:12px;padding:16px 22px;box-shadow:0 8px 32px rgba(0,0,0,.35);font-family:\'Segoe UI\',Arial,sans-serif;'+
+    'font-size:12px;min-width:280px;border-left:4px solid #7ABFA0;transition:opacity .4s';
+    document.body.appendChild(t);}
+  t.innerHTML=html; t.style.opacity='1'; t.style.borderLeftColor=color||'#7ABFA0';
+  clearTimeout(t._to); t._to=setTimeout(function(){t.style.opacity='0';},6000);
+}
+
 function actualizarTIP(ev){
   var file=ev.target.files[0];
   if(!file)return;
+  mostrarToast('&#8635; Leyendo <b>'+file.name+'</b>...','#7ABFA0');
   var reader=new FileReader();
   reader.onload=function(e){
     try{
       var wb=XLSX.read(new Uint8Array(e.target.result),{type:'array'});
       var ws=wb.Sheets['BD_Rellenar'];
-      if(!ws){alert('No se encontró la hoja BD_Rellenar');return;}
+      if(!ws){mostrarToast('&#10060; No se encontró la hoja <b>BD_Rellenar</b>','#C4001A');return;}
       var rows=XLSX.utils.sheet_to_json(ws,{header:1,raw:true,defval:null});
-      var data=rows.slice(9); // indice 8 = header (fila 9 Excel); datos desde indice 9 (fila 10 Excel)
+      var data=rows.slice(9);
       procesarDatos(data);
-      alert('TIP actualizado correctamente.');
+      var k=D.kpis;
+      mostrarToast(
+        '&#10003; <b>TIP actualizado</b> &mdash; '+file.name+'<br>'+
+        '<span style="color:#7ABFA0">Total Ajustado:</span> '+fCOP(k.tot_aj)+'<br>'+
+        '<span style="color:#7ABFA0">Contractual:</span> '+fCOP(k.con_t)+' ('+k.pct_com+'%)<br>'+
+        '<span style="color:#7ABFA0">Pre-Contractual:</span> '+fCOP(k.pre_t)+'<br>'+
+        '<span style="color:#7ABFA0">Necesidades:</span> '+k.nec,
+        '#7ABFA0'
+      );
     }catch(err){
-      alert('Error procesando el archivo: '+err.message);
+      mostrarToast('&#10060; Error procesando el archivo: '+err.message,'#C4001A');
     }
+    ev.target.value='';
   };
   reader.readAsArrayBuffer(file);
 }
