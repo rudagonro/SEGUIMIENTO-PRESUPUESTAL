@@ -6,7 +6,7 @@
 <title>TIP 2026 - BRIAV32 - Seguimiento Presupuestal</title>
 <style>
 #login-overlay{position:fixed;inset:0;background:linear-gradient(135deg,#0B3B1F 0%,#163d1f 60%,#5C7A44 100%);
-  display:flex;align-items:center;justify-content:center;z-index:99999;flex-direction:column;gap:0}
+  display:none;align-items:center;justify-content:center;z-index:99999;flex-direction:column;gap:0}
 #login-box{background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.18);border-radius:16px;
   padding:40px 44px;display:flex;flex-direction:column;align-items:center;gap:18px;min-width:320px;
   box-shadow:0 8px 40px rgba(0,0,0,.4)}
@@ -28,7 +28,8 @@
   var KEY='briav32_auth';
   document.addEventListener('DOMContentLoaded',function(){
     var overlay=document.getElementById('login-overlay');
-    if(sessionStorage.getItem(KEY)==='ok'){overlay.style.display='none';return;}
+    if(sessionStorage.getItem(KEY)==='ok'){return;}
+    overlay.style.display='flex';
     var input=document.getElementById('login-input');
     var btn=document.getElementById('login-btn');
     var err=document.getElementById('login-err');
