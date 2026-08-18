@@ -504,7 +504,7 @@ function renderAp(){
   var mejor=sorted[0],peor=sorted[sorted.length-1];
   G('lectura').innerHTML='<div class="ger-titulo">&#128202; Lectura Gerencial</div>'
     +'El presupuesto ajustado '+(u?('de '+u+' '):'consolidado de la Brigada ')+'es de <b>'+fCOP(tot)+'</b>, con un <b>'+pctCom+'%</b> comprometido mediante Contrato vigente respaldado en CRP. Lo Precontractual, Disponible y Recorte permanecen en CDP (sin CRP aún). '
-    +(u?'':('La unidad con mayor nivel de compromiso es <b>'+mejor.u+'</b> ('+(mejor.tot>0?Math.round((mejor.con+mejor.pre)/mejor.tot*100):0)+'%) y la de menor avance es <b>'+peor.u+'</b> ('+(peor.tot>0?Math.round((peor.con+peor.pre)/peor.tot*100):0)+'%).'));
+    +(u?'':('La unidad con mayor nivel de compromiso es <b>'+mejor.u+'</b> ('+(mejor.tot>0?Math.round(mejor.con/mejor.tot*100):0)+'%) y la de menor avance es <b>'+peor.u+'</b> ('+(peor.tot>0?Math.round(peor.con/peor.tot*100):0)+'%).'));
 
   // tabla por unidad
   var html='<thead><tr><th>Unidad</th><th class="r">Total Ajustado</th><th class="r">Contractual</th><th class="r">Precontractual</th><th class="r">Disponible</th><th>Distribución</th><th class="r">% Comp.</th><th class="r">Necesidades</th></tr></thead><tbody>';
